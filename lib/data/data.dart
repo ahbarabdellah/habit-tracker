@@ -9,11 +9,10 @@ class HabitDatabase {
   // init data
   void initdata() {
     habits = [
-      ["Morning Runs", false],
-      ["Evnings Runs", false],
-      ["Noon Runs", false],
+      ["Run", false],
+      ["Read a Book", false],
     ];
-    _myBox.put("Start_Date", getCurrentDateYYYYMMDD());
+    _myBox.put(getCurrentDateYYYYMMDD(), habits);
   }
 
   // read Data

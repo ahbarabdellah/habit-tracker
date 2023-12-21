@@ -4,7 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 
 void main() async {
   await Hive.initFlutter();
-  Hive.openBox('Habits_Database');
+  await Hive.openBox('Habits_Database');
   runApp(const MyApp());
 }
 

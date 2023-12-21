@@ -18,9 +18,13 @@ class _MyHomePageState extends State<MyHomePage> {
   var db = HabitDatabase();
   @override
   void initState() {
-    var myBox = Hive.box("Habits_List");
+    var myBox = Hive.box("Habits_Database");
 
-    if (myBox.get("Habits_List") == null) {}
+    if (myBox.get("Habits_List") == null) {
+      db.initdata();
+    } else {
+      db.loaddata();
+    }
     super.initState();
   }
 
@@ -30,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       db.habits[index][1] = value!;
     });
+    db.updatedate();
   }
 
   void cancel() {
@@ -43,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     habitTextFieldControler.clear();
     Navigator.of(context).pop();
+    db.updatedate();
   }
 
   void editHabitdialog(context, index) {
@@ -64,12 +70,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     habitTextFieldControler.clear();
     Navigator.of(context).pop();
+    db.updatedate();
   }
 
   void deleteHabit(int index) {
     setState(() {
       db.habits.removeAt(index);
     });
+    db.updatedate();
   }
 
   @override
