@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/components/alert_dialog.dart';
 import 'package:habit_tracker/components/habit_tile.dart';
 import 'package:habit_tracker/components/heatmap.dart';
+import 'package:habit_tracker/date_time/date_time.dart';
 import 'package:hive/hive.dart';
 import 'package:habit_tracker/data/data.dart';
 
@@ -16,13 +17,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 // habit data structure
+  var myBox = Hive.box("Habits_Database");
+
   var db = HabitDatabase();
   @override
   void initState() {
-    var myBox = Hive.box("Habits_Database");
-
     if (myBox.get("Current_habit_list") == null) {
       db.initdata();
+      myBox.put("StartDate", getCurrentDateYYYYMMDD());
     } else {
       db.loaddata();
     }
@@ -87,18 +89,26 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      body: ListView(children: [
-        ListView.builder(
-          itemCount: db.habits.length,
-          itemBuilder: (context, index) => HabiteTile(
-            habitName: db.habits[index][0],
-            habitValue: db.habits[index][1],
-            onChanged: (value) => checkHabit(value, index),
-            onEdit: (context) => editHabitdialog(context, index),
-            onDelete: (context) => deleteHabit(index),
-          ),
-        ),
-      ]),
+      body: ListView(
+          // Important to prevent independent scrolling
+          children: [
+            Heatmapcalndr(
+              dataset: db.datasethabitstracker,
+              startDate: myBox.get('StartDate'),
+            ),
+            ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: db.habits.length,
+              itemBuilder: (context, index) => HabiteTile(
+                habitName: db.habits[index][0],
+                habitValue: db.habits[index][1],
+                onChanged: (value) => checkHabit(value, index),
+                onEdit: (context) => editHabitdialog(context, index),
+                onDelete: (context) => deleteHabit(index),
+              ),
+            ),
+          ]),
       floatingActionButton: MyFab(
         habitTextFieldControler: habitTextFieldControler,
         cancel: cancel,
