@@ -1,4 +1,3 @@
-import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:habit_tracker/date_time/date_time.dart';
 import 'package:hive/hive.dart';
 
@@ -19,6 +18,8 @@ class HabitDatabase {
   // read Data
   void loaddata() {
     if (_myBox.get(getCurrentDateYYYYMMDD()) == null) {
+      _myBox.put("StartDate", getCurrentDateYYYYMMDD());
+
       habits = _myBox.get("Current_habit_list");
       for (int i = 0; i < habits.length; i++) {
         habits[i][1] = false;

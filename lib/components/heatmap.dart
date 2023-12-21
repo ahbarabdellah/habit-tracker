@@ -24,17 +24,10 @@ class _HeatmapcalndrState extends State<Heatmapcalndr> {
       child: HeatMap(
         startDate: convertYYYYMMDDToDateTime(widget.startDate),
         defaultColor: Colors.white,
+        textColor: Colors.black,
         colorMode: ColorMode.opacity,
         datasets: widget.dataset,
-        colorsets: const {
-          1: Color.fromARGB(255, 0, 81, 0),
-          3: Color.fromARGB(255, 36, 128, 17),
-          5: Color.fromARGB(255, 86, 159, 44),
-          7: Color.fromARGB(255, 84, 231, 89),
-          9: Color.fromARGB(255, 141, 255, 149),
-          11: Color.fromARGB(255, 164, 229, 151),
-          13: Color.fromARGB(255, 193, 221, 185),
-        },
+        colorsets: const {1: Colors.green},
         onClick: (value) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(value.toString())));

@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
               startDate: myBox.get('StartDate'),
             ),
             ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: db.habits.length,
               itemBuilder: (context, index) => HabiteTile(
