@@ -16,8 +16,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List habits = [
     ["Morning Runs", false],
-    ["Morning Runs", false],
-    ["Morning Runs", false],
+    ["Evnings Runs", false],
+    ["Noon Runs", false],
   ];
 
   TextEditingController habitTextFieldControler = TextEditingController();
@@ -41,6 +41,33 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pop();
   }
 
+  void editHabitdialog(context, index) {
+    showDialog(
+        context: context,
+        builder: (contex) {
+          return AlertDialogWidget(
+            hinttext: habits[index][0],
+            habitTextFieldControler: habitTextFieldControler,
+            cancel: cancel,
+            saveHabit: () => editHabit(index),
+          );
+        });
+  }
+
+  void editHabit(int index) {
+    setState(() {
+      habits[index][0] = habitTextFieldControler.text.trim();
+    });
+    habitTextFieldControler.clear();
+    Navigator.of(context).pop();
+  }
+
+  void deleteHabit(int index) {
+    setState(() {
+      habits.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
           habitName: habits[index][0],
           habitValue: habits[index][1],
           onChanged: (value) => checkHabit(value, index),
+          onEdit: (context) => editHabitdialog(context, index),
+          onDelete: (context) => deleteHabit(index),
         ),
       )),
       floatingActionButton: MyFab(
