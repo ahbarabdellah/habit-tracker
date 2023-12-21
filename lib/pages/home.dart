@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/components/alert_dialog.dart';
 import 'package:habit_tracker/components/habit_tile.dart';
+import 'package:habit_tracker/components/heatmap.dart';
 import 'package:hive/hive.dart';
 import 'package:habit_tracker/data/data.dart';
 
@@ -20,11 +21,13 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     var myBox = Hive.box("Habits_Database");
 
-    if (myBox.get("Habits_List") == null) {
+    if (myBox.get("Current_habit_list") == null) {
       db.initdata();
     } else {
       db.loaddata();
     }
+
+    db.updatedate();
     super.initState();
   }
 
@@ -84,17 +87,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      body: SafeArea(
-          child: ListView.builder(
-        itemCount: db.habits.length,
-        itemBuilder: (context, index) => HabiteTile(
-          habitName: db.habits[index][0],
-          habitValue: db.habits[index][1],
-          onChanged: (value) => checkHabit(value, index),
-          onEdit: (context) => editHabitdialog(context, index),
-          onDelete: (context) => deleteHabit(index),
+      body: ListView(children: [
+        ListView.builder(
+          itemCount: db.habits.length,
+          itemBuilder: (context, index) => HabiteTile(
+            habitName: db.habits[index][0],
+            habitValue: db.habits[index][1],
+            onChanged: (value) => checkHabit(value, index),
+            onEdit: (context) => editHabitdialog(context, index),
+            onDelete: (context) => deleteHabit(index),
+          ),
         ),
-      )),
+      ]),
       floatingActionButton: MyFab(
         habitTextFieldControler: habitTextFieldControler,
         cancel: cancel,
