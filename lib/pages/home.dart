@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/components/alert_dialog.dart';
 import 'package:habit_tracker/components/habit_tile.dart';
+import 'package:hive/hive.dart';
+import 'package:habit_tracker/data/data.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -13,18 +15,20 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 // habit data structure
+  var db = HabitDatabase();
+  @override
+  void initState() {
+    var myBox = Hive.box("Habits_List");
 
-  List habits = [
-    ["Morning Runs", false],
-    ["Evnings Runs", false],
-    ["Noon Runs", false],
-  ];
+    if (myBox.get("Habits_List") == null) {}
+    super.initState();
+  }
 
   TextEditingController habitTextFieldControler = TextEditingController();
 
   void checkHabit(bool? value, int index) {
     setState(() {
-      habits[index][1] = value!;
+      db.habits[index][1] = value!;
     });
   }
 
@@ -35,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void saveHabit() {
     setState(() {
-      habits.add([habitTextFieldControler.text.trim(), false]);
+      db.habits.add([habitTextFieldControler.text.trim(), false]);
     });
     habitTextFieldControler.clear();
     Navigator.of(context).pop();
@@ -46,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
         context: context,
         builder: (contex) {
           return AlertDialogWidget(
-            hinttext: habits[index][0],
+            hinttext: db.habits[index][0],
             habitTextFieldControler: habitTextFieldControler,
             cancel: cancel,
             saveHabit: () => editHabit(index),
@@ -56,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void editHabit(int index) {
     setState(() {
-      habits[index][0] = habitTextFieldControler.text.trim();
+      db.habits[index][0] = habitTextFieldControler.text.trim();
     });
     habitTextFieldControler.clear();
     Navigator.of(context).pop();
@@ -64,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void deleteHabit(int index) {
     setState(() {
-      habits.removeAt(index);
+      db.habits.removeAt(index);
     });
   }
 
@@ -74,10 +78,10 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: Colors.grey[300],
       body: SafeArea(
           child: ListView.builder(
-        itemCount: habits.length,
+        itemCount: db.habits.length,
         itemBuilder: (context, index) => HabiteTile(
-          habitName: habits[index][0],
-          habitValue: habits[index][1],
+          habitName: db.habits[index][0],
+          habitValue: db.habits[index][1],
           onChanged: (value) => checkHabit(value, index),
           onEdit: (context) => editHabitdialog(context, index),
           onDelete: (context) => deleteHabit(index),
