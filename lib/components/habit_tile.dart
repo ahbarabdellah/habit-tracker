@@ -20,7 +20,7 @@ class HabiteTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
       child: Slidable(
         endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
@@ -48,6 +48,11 @@ class HabiteTile extends StatelessWidget {
                 habitName,
                 style: const TextStyle(fontSize: 18),
               ),
+              Expanded(child: Container()),
+              const Align(
+                alignment: Alignment.centerRight,
+                child: Icon(Icons.arrow_back),
+              )
             ],
           ),
         ),

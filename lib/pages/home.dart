@@ -88,13 +88,37 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Row(children: [
+          Icon(Icons.repeat),
+          SizedBox(
+            width: 10,
+          ),
+          Text("Habits Tracker"),
+        ]),
+        backgroundColor: Colors.green.shade100,
+      ),
       backgroundColor: Colors.grey[300],
       body: ListView(
           // Important to prevent independent scrolling
           children: [
+            const Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text(
+                "🔥 Map Summary",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
             Heatmapcalndr(
               dataset: db.datasethabitstracker,
               startDate: myBox.get('StartDate'),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text(
+                "🚀 Habits List",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
