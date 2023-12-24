@@ -11,8 +11,9 @@ A Flutter application for tracking daily habits, featuring a heatmap calendar an
 
 ## Screenshots
 ![Habit Tracker Overview](https://github.com/ahbarabdellah/habit-tracker/assets/71067263/6990f59d-3d68-4c2f-93f0-07e931bad5d7)
-![Habit Tracker Detail View](https://github.com/ahbarabdellah/habit-tracker/assets/71067263/17f39509-cb8f-4b2d-ac2d-75ef592316b0)
-![Habit Tracker Heatmap](https://github.com/ahbarabdellah/habit-tracker/assets/71067263/75bb43db-d1ce-40fa-912b-aa25677ade8a)
+| Habit Tracker Detail View | Habit Tracker Heatmap |
+| ------------------------- | --------------------- |
+| ![Habit Tracker Detail View](https://github.com/ahbarabdellah/habit-tracker/assets/71067263/17f39509-cb8f-4b2d-ac2d-75ef592316b0) | ![Habit Tracker Heatmap](https://github.com/ahbarabdellah/habit-tracker/assets/71067263/75bb43db-d1ce-40fa-912b-aa25677ade8a) |
 
 
 ## Dependencies
